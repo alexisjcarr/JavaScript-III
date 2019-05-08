@@ -133,18 +133,9 @@ function Villain(villainAttrs) {
 }
 Villain.prototype = Object.create(Humanoid.prototype);
 Villain.prototype.beEvil = function(Hero) {
-  let status = "";
   Hero.healthPoints -= 10;
-  if (Hero.healthPoints > 0) {
-    status = "alive";
-    return [`health: ${Hero.healthPoints}`, status];
-  } else if (Hero.healthPoints <= 0) {
-    status = "dead";
-    return [
-      `health: ${Hero.healthPoints}`,
-      `${Hero.name} is ${status}. ${this.name} wins!`
-    ];
-  }
+  return Hero.healthPoints ? [`health: ${Hero.healthPoints}`, 'alive'] : [`health: ${Hero.healthPoints}`,
+     `${Hero.name} is dead. ${this.name} wins!`];
 };
 
 function Hero(heroAttrs) {
@@ -152,19 +143,10 @@ function Hero(heroAttrs) {
 }
 Hero.prototype = Object.create(Humanoid.prototype);
 Hero.prototype.destroyEvil = function(Villain) {
-  let status = "";
   Villain.healthPoints -= 10;
-  if (Villain.healthPoints > 0) {
-    status = "alive";
-    return [`health: ${Villain.healthPoints}`, status];
-  } else if (Villain.healthPoints <= 0) {
-    status = "dead";
-    return [
-      `health: ${Villain.healthPoints}`,
-      `${Villain.name} is ${status}. ${this.name} wins!`
-    ];
-  }
-};
+  return Villain.healthPoints ? [`health: ${Villain.healthPoints}`, 'alive'] : [`health: ${Villain.healthPoints}`,
+     `${Villain.name} is dead. ${this.name} wins!`];
+}
 
 const archer1 = new Hero({
   createdAt: new Date(),
