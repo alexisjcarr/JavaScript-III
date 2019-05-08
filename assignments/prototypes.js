@@ -124,7 +124,7 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
-// * Give the Hero and Villains different methods that could be used to remove health points from objects 
+// * Give the Hero and Villains different methods that could be used to remove health points from objects
 // * which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
@@ -132,14 +132,84 @@ function Villain(villainAttrs) {
   Humanoid.call(this, villainAttrs);
 }
 Villain.prototype = Object.create(Humanoid.prototype);
-Villain.prototype.beEvil = function() {
-  // be evil
-}
+Villain.prototype.beEvil = function(Hero) {
+  let status = "";
+  Hero.healthPoints -= 10;
+  if (Hero.healthPoints > 0) {
+    status = "alive";
+    return [`health: ${Hero.healthPoints}`, status];
+  } else if (Hero.healthPoints <= 0) {
+    status = "dead";
+    return [
+      `health: ${Hero.healthPoints}`,
+      `${Hero.name} is ${status}. ${this.name} wins!`
+    ];
+  }
+};
 
 function Hero(heroAttrs) {
   Humanoid.call(this, heroAttrs);
 }
 Hero.prototype = Object.create(Humanoid.prototype);
-Hero.prototype.destroyEvil = function() {
-  // destroy evil
-}
+Hero.prototype.destroyEvil = function(Villain) {
+  let status = "";
+  Villain.healthPoints -= 10;
+  if (Villain.healthPoints > 0) {
+    status = "alive";
+    return [`health: ${Villain.healthPoints}`, status];
+  } else if (Villain.healthPoints <= 0) {
+    status = "dead";
+    return [
+      `health: ${Villain.healthPoints}`,
+      `${Villain.name} is ${status}. ${this.name} wins!`
+    ];
+  }
+};
+
+const archer1 = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  healthPoints: 100,
+  name: "Lilith",
+  team: "Forest Kingdom",
+  weapons: ["Bow", "Dagger"],
+  language: "Elvish"
+});
+
+const swordsman1 = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 2
+  },
+  healthPoints: 100,
+  name: "Sir Mustachio",
+  team: "The Round Table",
+  weapons: ["Giant Sword", "Shield"],
+  language: "Common Tongue"
+});
+
+/*============ Health Points ============*/
+console.log(archer1.healthPoints); //hero
+console.log(swordsman1.healthPoints); //villain
+
+/*============ FIGHT ============*/
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+console.log(archer1.destroyEvil(swordsman1));
+
+/*============ Final Health Points ============*/
+console.log(archer1.healthPoints); //hero
+console.log(swordsman1.healthPoints); //villain
